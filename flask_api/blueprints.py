@@ -1,41 +1,60 @@
 from flask import Blueprint, jsonify, request
 from flask_api.models import Todo, db
-from flask_api.utils import todo_to_dict
+from flask_api.utils import todo_to_dict, generate_response
 
-main = Blueprint('main', __name__)
+todos = Blueprint('todos', __name__)
 
 
-@main.route('/todos/', methods=['GET'])
+@todos.route('/todos/', methods=['GET'])
 def list_all_todos():
     return jsonify([*map(todo_to_dict, Todo.query.all())])
 
 
-@main.route('/todos/<int:todo_id>', methods=['GET'])
+@todos.route('/todos/<int:todo_id>', methods=['GET'])
 def list_todo(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
+    if not todo:
+        return generate_response(404, 'Task not found.')
+
     return jsonify(todo_to_dict(todo))
 
 
-@main.route('/todos/', methods=['POST'])
+@todos.route('/todos/', methods=['POST'])
 def add_todo():
     post_data = request.get_json()
     if not post_data:
-        response = {'code': 400, 'message': 'Invalid payload.'}
-        return jsonify(response), response.get('code')
+        return generate_response(400, 'Invalid payload.')
 
     task = post_data.get('task')
     db.session.add(Todo(task=task))
     db.session.commit()
 
-    response = {'code': 201, 'message': 'Task added.'}
-    return jsonify(response), response.get('code')
+    return generate_response(201, 'Task added.')
 
 
-@main.route('/todos/<int:todo_id>', methods=['PATCH'])
-def update_todo():
-    pass
+@todos.route('/todos/<int:todo_id>', methods=['PUT'])
+def update_todo(todo_id):
+    todo = Todo.query.filter_by(id=todo_id).first()
+    if not todo:
+        return generate_response(404, 'Task not found.')
+
+    post_data = request.get_json()
+    if not post_data:
+        return generate_response(400, 'Invalid payload.')
+
+    todo.task = post_data.get('task') or todo.task
+    todo.done = post_data.get('done') or todo.done
+    db.session.commit()
+
+    return generate_response(200, 'Task updated.')
 
 
-@main.route('/todos/<int:todo_id>', methods=['DELETE'])
-def delete_todo():
-    pass
+@todos.route('/todos/<int:todo_id>', methods=['DELETE'])
+def delete_todo(todo_id):
+    todo = Todo.query.filter_by(id=todo_id).first()
+    if not todo:
+        return generate_response(404, 'Task not found.')
+
+    db.session.delete(todo)
+    db.session.commit()
+    return generate_response(200, 'Task deleted.')
