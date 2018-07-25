@@ -4,6 +4,7 @@ from flask_api.utils import todo_to_dict
 
 main = Blueprint('main', __name__)
 
+
 @main.route('/todos/', methods=['GET'])
 def list_all_todos():
     return jsonify([*map(todo_to_dict, Todo.query.all())])
@@ -19,20 +20,14 @@ def list_todo(todo_id):
 def add_todo():
     post_data = request.get_json()
     if not post_data:
-        response = {
-            'code': 400,
-            'message': 'Invalid payload.'
-        }
+        response = {'code': 400, 'message': 'Invalid payload.'}
         return jsonify(response), response.get('code')
 
     task = post_data.get('task')
     db.session.add(Todo(task=task))
     db.session.commit()
 
-    response = {
-        'code': 201,
-        'message': 'Task added.'
-    }
+    response = {'code': 201, 'message': 'Task added.'}
     return jsonify(response), response.get('code')
 
 

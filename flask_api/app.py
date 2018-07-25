@@ -14,9 +14,11 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+
 @app.route('/')
 def hello():
     return jsonify({'response': "It's working"})
+
 
 app.register_blueprint(main)
 
