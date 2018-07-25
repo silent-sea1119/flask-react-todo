@@ -4,6 +4,7 @@ To-do list application written with Python and Javascript using Client + API arc
 ----
 
 #### Tasks
-- [ ] Create, Read, Update, Delete
-- [ ] Mark as done
+- [x] Create, Read, Update, Delete on API
+- [ ] Create, Read, Update, Delete on Client
+- [ ] Mark task as done
 - [ ] Done and not done views
