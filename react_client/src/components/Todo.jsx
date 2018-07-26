@@ -3,6 +3,7 @@ import React, { Component } from "react";
 export default class Todo extends Component {
   render() {
     const { onChange, todo } = this.props;
+
     return (
       <li>
         <input
