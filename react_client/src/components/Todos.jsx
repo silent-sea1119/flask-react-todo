@@ -3,7 +3,6 @@ import Todo from "./Todo";
 
 export default class Todos extends Component {
   state = {
-    showing_done: false,
     todos: [
       { id: 1, task: "This is a task", done: true },
       { id: 2, task: "This is another task", done: false },
@@ -11,7 +10,22 @@ export default class Todos extends Component {
     ]
   };
 
+  handleDone = todo => {
+    const todos = [...this.state.todos];
+    const index = todos.indexOf(todo);
+    todos[index] = { ...todo };
+    todos[index].done = !todos[index].done;
+    this.setState({ todos });
+  };
+
   render() {
-    return <ul>{this.state.todos.map(todo => <Todo key={todo.id} />)}</ul>;
+    console.log(...this.state.todos);
+    return (
+      <ul>
+        {this.state.todos.map(todo => (
+          <Todo key={todo.id} todo={todo} onChange={this.handleDone} />
+        ))}
+      </ul>
+    );
   }
 }

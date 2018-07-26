@@ -2,6 +2,17 @@ import React, { Component } from "react";
 
 export default class Todo extends Component {
   render() {
-    return <li>This will be a task</li>;
+    const { onChange, todo } = this.props;
+    return (
+      <li>
+        <input
+          type="checkbox"
+          name="done"
+          onChange={() => onChange(todo)}
+          defaultChecked={todo.done}
+        />
+        <span>{todo.task}</span>
+      </li>
+    );
   }
 }
