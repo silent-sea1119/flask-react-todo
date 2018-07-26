@@ -5,8 +5,6 @@ export default class Todos extends Component {
   render() {
     const { todos, handleDone } = this.props;
 
-    console.log(...todos);
-
     return (
       <ul>
         {todos.map(todo => (

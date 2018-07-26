@@ -12,7 +12,7 @@ export default class Todo extends Component {
           onChange={() => onChange(todo)}
           defaultChecked={todo.done}
         />
-        <span>{todo.task}</span>
+        <span>{todo.value}</span>
       </li>
     );
   }
