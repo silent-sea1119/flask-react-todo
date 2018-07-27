@@ -10,7 +10,9 @@ export default class AddTodo extends Component {
   };
 
   handleButtonClick = () => {
-    this.props.handleAddTask(this.state.value);
+    const text = this.state.value.trim();
+    if (text.length <= 0) return;
+    this.props.handleAddTask(text);
     this.setState({ value: "" });
   };
 
