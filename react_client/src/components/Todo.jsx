@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./Button";
 
-const Todo = ({ todo, handleDone }) => {
+const Todo = ({ todo, handleDone, handleRemoveTodo }) => {
   return (
     <li>
       <input
@@ -11,6 +11,7 @@ const Todo = ({ todo, handleDone }) => {
         defaultChecked={todo.done}
       />
       <span>{todo.value}</span>
+      <Button onClick={() => handleRemoveTodo(todo)}>Delete</Button>
     </li>
   );
 };

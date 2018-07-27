@@ -31,12 +31,18 @@ export default class App extends Component {
     this.setState({ todos });
   };
 
+  handleRemoveTodo = todo => {
+    const todos = this.state.todos.filter(td => td !== todo);
+    this.setState({ todos });
+  };
+
   render() {
     return (
       <div>
         <Todos
           todos={this.state.todos}
           handleDone={this.handleDone}
+          handleRemoveTodo={this.handleRemoveTodo}
         />
         <AddTodo handleAddTodo={this.handleAddTodo} />
       </div>
