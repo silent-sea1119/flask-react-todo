@@ -1,14 +1,13 @@
 import React from "react";
+import Button from "./Button";
 
-const Todo = props => {
-  const { onChange, todo } = props;
-
+const Todo = ({ todo, handleDone }) => {
   return (
     <li>
       <input
         type="checkbox"
         name="done"
-        onChange={() => onChange(todo)}
+        onChange={() => handleDone(todo)}
         defaultChecked={todo.done}
       />
       <span>{todo.value}</span>

@@ -20,7 +20,7 @@ export default class App extends Component {
     this.setState({ todos });
   };
 
-  handleAddTask = value => {
+  handleAddTodo = value => {
     const todos = [...this.state.todos];
     const todo = {
       id: this.state.todos.length + 1,
@@ -34,8 +34,11 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <Todos todos={this.state.todos} handleDone={this.handleDone} />
-        <AddTodo handleAddTask={this.handleAddTask} />
+        <Todos
+          todos={this.state.todos}
+          handleDone={this.handleDone}
+        />
+        <AddTodo handleAddTodo={this.handleAddTodo} />
       </div>
     );
   }

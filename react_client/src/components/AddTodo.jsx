@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Button from "./Button";
 
 export default class AddTodo extends Component {
   state = {
@@ -12,7 +13,7 @@ export default class AddTodo extends Component {
   handleButtonClick = () => {
     const text = this.state.value.trim();
     if (text.length <= 0) return;
-    this.props.handleAddTask(text);
+    this.props.handleAddTodo(text);
     this.setState({ value: "" });
   };
 
@@ -24,11 +25,7 @@ export default class AddTodo extends Component {
           value={this.state.value}
           onChange={this.handleChange}
         />
-        <input
-          type="button"
-          value="Add task"
-          onClick={this.handleButtonClick}
-        />
+        <Button onClick={this.handleButtonClick}>Add task</Button>
       </div>
     );
   }
