@@ -19,6 +19,12 @@ export default class AddTodo extends Component {
     this.setState({ value: "" });
   };
 
+  handleEnterKeyDown = event => {
+    if (event.keyCode === 13) {
+      return this.handleButtonClick();
+    }
+  };
+
   render() {
     return (
       <div>
@@ -26,6 +32,7 @@ export default class AddTodo extends Component {
           type="text"
           value={this.state.value}
           onChange={this.handleChange}
+          onKeyDown={this.handleEnterKeyDown}
         />
         <Button onClick={this.handleButtonClick}>Add task</Button>
       </div>
