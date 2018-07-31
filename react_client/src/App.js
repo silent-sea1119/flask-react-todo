@@ -6,41 +6,66 @@ import ViewToggle from "./components/ViewToggle";
 
 export default class App extends Component {
   state = {
-    todos: [
-      { id: 1, value: "This is a done task", done: true },
-      { id: 2, value: "This is another task", done: false },
-      { id: 3, value: "This is yet another task", done: false }
-    ],
+    todos: [],
     showDone: false
   };
 
   handleDone = todo => {
     const todos = [...this.state.todos];
     const index = todos.indexOf(todo);
-    todos[index] = { ...todo };
-    todos[index].done = !todos[index].done;
-    this.setState({ todos });
+    const putData = {
+      method: "PUT",
+      body: JSON.stringify({ done: !todo.done }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    fetch("/todos/" + todo.id, putData)
+      .then(response => response.json())
+      .then(({ todo }) => {
+        todos[index] = { id: todo.id, task: todo.task, done: todo.done };
+        this.setState({ todos });
+      })
+      .catch(error => console.log(error));
   };
 
-  handleAddTodo = value => {
+  handleAddTodo = task => {
     const todos = [...this.state.todos];
-    const todo = {
-      id: this.state.todos.length + 1,
-      value: value,
-      done: false
+    const postData = {
+      method: "POST",
+      body: JSON.stringify({ task: task }),
+      headers: {
+        "Content-Type": "application/json"
+      }
     };
-    todos.push(todo);
-    this.setState({ todos });
+    fetch("/todos/", postData)
+      .then(response => response.json())
+      .then(({ todo }) => {
+        todos.push({ id: todo.id, task: todo.task, done: todo.done });
+        this.setState({ todos, showDone: false });
+      })
+      .catch(error => console.log(error));
   };
 
   handleRemoveTodo = todo => {
-    const todos = this.state.todos.filter(td => td !== todo);
-    this.setState({ todos });
+    const deleteData = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    fetch("/todos/" + todo.id, deleteData)
+      .then(response => response.json())
+      .then(data => {
+        if (data.code === 200) {
+          const todos = this.state.todos.filter(td => td !== todo);
+          this.setState({ todos });
+        }
+      })
+      .catch(error => console.log(error));
   };
 
-  handleViewToggle = bool => {
-    this.setState({ showDone: bool });
-  };
+  handleViewToggle = bool => this.setState({ showDone: bool });
 
   todosSelector = () => {
     if (this.state.showDone) {
@@ -48,6 +73,13 @@ export default class App extends Component {
     }
     return this.state.todos.filter(td => td.done === false);
   };
+
+  componentDidMount() {
+    fetch("/todos/")
+      .then(response => response.json())
+      .then(data => this.setState({ todos: data }))
+      .catch(error => console.log(error));
+  }
 
   render() {
     return (

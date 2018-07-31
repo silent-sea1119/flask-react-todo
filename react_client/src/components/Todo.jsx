@@ -11,7 +11,7 @@ const Todo = ({ todo, handleDone, handleRemoveTodo }) => {
         defaultChecked={todo.done}
         // Add submit on Enter keydown
       />
-      <span>{todo.value}</span>
+      <span>{todo.task}</span>
       <Button onClick={() => handleRemoveTodo(todo)}>Delete</Button>
     </div>
   );
