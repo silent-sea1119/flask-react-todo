@@ -1,13 +1,13 @@
 from flask import Blueprint, jsonify, request
 from flask_api.models import Todo, db
-from flask_api.utils import todo_to_dict, generate_response
+from flask_api.utils import todo_serializer, generate_response
 
 todos = Blueprint('todos', __name__)
 
 
 @todos.route('/todos/', methods=['GET'])
 def list_all_todos():
-    return jsonify([*map(todo_to_dict, Todo.query.all())])
+    return jsonify([*map(todo_serializer, Todo.query.all())])
 
 
 @todos.route('/todos/<int:todo_id>', methods=['GET'])
@@ -16,7 +16,7 @@ def list_todo(todo_id):
     if not todo:
         return generate_response(404, 'Task not found.')
 
-    return jsonify(todo_to_dict(todo))
+    return jsonify(todo_serializer(todo))
 
 
 @todos.route('/todos/', methods=['POST'])
@@ -26,10 +26,11 @@ def add_todo():
         return generate_response(400, 'Invalid payload.')
 
     task = post_data.get('task')
-    db.session.add(Todo(task=task))
+    todo = Todo(task=task)
+    db.session.add(todo)
     db.session.commit()
 
-    return generate_response(201, 'Task added.')
+    return generate_response(201, 'Task added.', todo_serializer(todo))
 
 
 @todos.route('/todos/<int:todo_id>', methods=['PUT'])
@@ -46,7 +47,7 @@ def update_todo(todo_id):
     todo.done = post_data.get('done') or todo.done
     db.session.commit()
 
-    return generate_response(200, 'Task updated.')
+    return generate_response(200, 'Task updated.', todo_serializer(todo))
 
 
 @todos.route('/todos/<int:todo_id>', methods=['DELETE'])
