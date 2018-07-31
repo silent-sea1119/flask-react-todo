@@ -27,14 +27,26 @@ export default class AddTodo extends Component {
 
   render() {
     return (
-      <div>
+      <div className="input-group m-2">
         <input
           type="text"
+          className="form-control"
+          placeholder="Add new task"
           value={this.state.value}
           onChange={this.handleChange}
           onKeyDown={this.handleEnterKeyDown}
         />
-        <Button onClick={this.handleButtonClick}>Add task</Button>
+        <div className="input-group-append mr-3">
+          <Button
+            className={
+              "btn btn-" + (this.state.value ? "primary" : "outline-secondary")
+            }
+            onClick={this.handleButtonClick}
+            disabled={!this.state.value}
+          >
+            Add task
+          </Button>
+        </div>
       </div>
     );
   }

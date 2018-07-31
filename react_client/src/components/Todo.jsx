@@ -3,17 +3,24 @@ import Button from "./Button";
 
 const Todo = ({ todo, handleDone, handleRemoveTodo }) => {
   return (
-    <div>
+    <li className="list-group-item d-flex align-items-baseline list-unstyled">
       <input
         type="checkbox"
-        name="done"
+        id={"done" + todo.id}
+        className="mr-4"
         onChange={() => handleDone(todo)}
         defaultChecked={todo.done}
-        // Add submit on Enter keydown
       />
-      <span>{todo.task}</span>
-      <Button onClick={() => handleRemoveTodo(todo)}>Delete</Button>
-    </div>
+      <label for={"done" + todo.id}>
+        {todo.done ? <s>{todo.task}</s> : todo.task}
+      </label>
+      <Button
+        className="btn btn-danger ml-auto"
+        onClick={() => handleRemoveTodo(todo)}
+      >
+        Delete
+      </Button>
+    </li>
   );
 };
 

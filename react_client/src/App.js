@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import Todos from "./components/Todos";
-import AddTodo from "./components/AddTodo";
 import ViewToggle from "./components/ViewToggle";
 
 export default class App extends Component {
@@ -83,14 +82,29 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
-        <ViewToggle handleViewToggle={this.handleViewToggle} />
-        <Todos
-          todos={this.todosSelector()}
-          handleDone={this.handleDone}
-          handleRemoveTodo={this.handleRemoveTodo}
-        />
-        <AddTodo handleAddTodo={this.handleAddTodo} />
+      <div className="container-fluid mt-5">
+        <div className="row justify-content-center">
+          <div className="col-8">
+            <div className="card text-center">
+              <div className="card-header">
+                <ul className="nav card-header-pills justify-content-center">
+                  <li className="nav-item">
+                    <ViewToggle
+                      handleViewToggle={this.handleViewToggle}
+                      showDone={this.state.showDone}
+                    />
+                  </li>
+                </ul>
+              </div>
+              <Todos
+                todos={this.todosSelector()}
+                handleDone={this.handleDone}
+                handleRemoveTodo={this.handleRemoveTodo}
+                handleAddTodo={this.handleAddTodo}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

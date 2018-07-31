@@ -1,11 +1,27 @@
 import React from "react";
 import Button from "./Button";
 
-const ViewToggle = ({ handleViewToggle }) => {
+const ViewToggle = ({ handleViewToggle, showDone }) => {
   return (
-    <div>
-      <Button onClick={() => handleViewToggle(false)}>To Do</Button>
-      <Button onClick={() => handleViewToggle(true)}>Done</Button>
+    <div className="btn-group" role="group">
+      <Button
+        className={
+          "nav-link btn btn-" + (showDone ? "outline-secondary" : "primary")
+        }
+        onClick={() => handleViewToggle(false)}
+        disabled={!showDone}
+      >
+        To Do
+      </Button>
+      <Button
+        className={
+          "nav-link btn btn-" + (showDone ? "primary" : "outline-secondary")
+        }
+        onClick={() => handleViewToggle(true)}
+        disabled={showDone}
+      >
+        Done
+      </Button>
     </div>
   );
 };

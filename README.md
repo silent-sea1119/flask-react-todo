@@ -9,4 +9,4 @@ To-do list application written with Python and Javascript using Client + API arc
 - [x] Create CRUD routes
 - [x] Create CRUD calls
 - [x] Done and not done views
-- [ ] Bootstrap layout
+- [x] Bootstrap layout

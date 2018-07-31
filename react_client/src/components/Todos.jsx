@@ -1,9 +1,10 @@
 import React from "react";
 import Todo from "./Todo";
+import AddTodo from "./AddTodo";
 
-const Todos = ({ todos, handleDone, handleRemoveTodo }) => {
+const Todos = ({ todos, handleDone, handleRemoveTodo, handleAddTodo }) => {
   return (
-    <ul>
+    <ul className="list-group list-group-flush">
       {todos.map(todo => (
         <Todo
           key={todo.id}
@@ -12,6 +13,7 @@ const Todos = ({ todos, handleDone, handleRemoveTodo }) => {
           handleRemoveTodo={handleRemoveTodo}
         />
       ))}
+      <AddTodo handleAddTodo={handleAddTodo} />
     </ul>
   );
 };
