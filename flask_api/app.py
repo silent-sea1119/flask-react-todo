@@ -17,16 +17,16 @@ with app.app_context():
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(e):
     return generate_response(404, 'Resource not found.')
 
 
 @app.errorhandler(400)
-def not_found():
+def bad_request(e):
     return generate_response(400, 'Bad request.')
 
 
 app.register_blueprint(todos)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
